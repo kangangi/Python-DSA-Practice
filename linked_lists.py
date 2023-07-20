@@ -159,7 +159,7 @@ class LinkedList:
             print(temp.value)
             temp = temp.next
 
-'''Codiing Challenges'''
+'''Coding Challenges'''
 
 '''
 
@@ -327,3 +327,100 @@ class LinkedList:
         left_prev.next = prev
 
         return dummy.next
+    
+
+'''
+LL: Partition List
+You are given a singly linked list implementation in Python that does not have a tail pointer (which will make this method simpler to implement).
+
+You are tasked with implementing a method partition_list(self, x) that will take an integer x and partition the linked list such that all nodes with values less than x come before nodes with values greater than or equal to x. You should preserve the original relative order of the nodes in each of the two partitions.
+
+You need to implement this method as a method of the LinkedList class. The method should take an integer x as input. If the linked list is empty, the method should return None.
+
+'''
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+        
+class LinkedList:
+    def __init__(self, value):
+        new_node = Node(value)
+        self.head = new_node
+        self.length = 1
+        
+    def partition_list(self, x):
+        if not self.head:
+            return None
+    
+        dummy1 = Node(0)
+        dummy2 = Node(0)
+        
+        prev1, prev2 = dummy1, dummy2
+        curr = self.head
+        
+        while curr:
+            if curr.value < x:
+                prev1.next = curr
+                prev1 = curr
+            else:
+                prev2.next = curr
+                prev2 = curr
+                
+            curr = curr.next
+            
+        prev1.next = None
+        prev2.next = None
+        prev1.next = dummy2.next
+        
+        self.head = dummy1.next
+
+"""
+LL: Remove Duplicates
+You are given a singly linked list that contains integer values, where some of these values may be duplicated.
+
+Note: this linked list class does not have a tail which will make this method easier to implement.
+
+Your task is to implement a method called remove_duplicates() within the LinkedList class that removes all duplicate values from the list.
+
+Your method should not create a new list, but rather modify the existing list in-place, preserving the relative order of the nodes.
+
+"""
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+        
+class LinkedList:
+    def __init__(self, value):
+        new_node = Node(value)
+        self.head = new_node
+        self.length = 1
+    
+    def remove_duplicates(self):
+        values = set()
+        previous = None
+        current = self.head
+        while current:
+            if current.value in values:
+                previous.next = current.next
+                self.length -= 1
+            else:
+                values.add(current.value)
+                previous = current
+            current = current.next
+
+
+    def remove_duplicates(self):
+        current = self.head
+        while current:
+            runner = current
+            while runner.next:
+                if runner.next.value == current.value:
+                    runner.next = runner.next.next
+                    self.length -= 1
+                else:
+                    runner = runner.next
+            current = current.next
